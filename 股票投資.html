@@ -1,0 +1,233 @@
+<!doctype html>
+<html lang="zh-Hant-TW">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#132a48">
+<title>我的長期投資模擬器｜40 年分段加碼版</title>
+<style>
+:root{color-scheme:light;--ink:#142238;--sub:#607187;--line:#dfe7f1;--bg:#f3f7fb;--surface:#fff;--blue:#2563eb;--navy:#132a48;--teal:#078e7f;--red:#c24154}
+*{box-sizing:border-box}html{font-family:system-ui,-apple-system,"Noto Sans TC","Microsoft JhengHei",sans-serif}body{margin:0;background:var(--bg);color:var(--ink)}
+button,input,select{font:inherit}button{cursor:pointer}button:focus-visible,input:focus-visible,select:focus-visible{outline:3px solid #aac3ff;outline-offset:1px}
+header{background:radial-gradient(ellipse at 93% 0%,#3a629a,transparent 42%),linear-gradient(115deg,#11233d,#1d4164);color:#fff;padding:38px 24px 96px}
+.header-in{max-width:1250px;margin:auto}header h1{font-size:clamp(27px,3.5vw,42px);margin:14px 0 8px;letter-spacing:-.045em}header p{margin:0;color:#cad8e9;font-size:14px;line-height:1.7}.eyebrow{font-size:12px;font-weight:750;color:#bfe4f4;letter-spacing:.06em}
+main{max-width:1250px;margin:-66px auto 70px;padding:0 18px}.layout{display:grid;grid-template-columns:minmax(330px,440px) minmax(0,1fr);align-items:start;gap:18px}.left,.right{min-width:0}
+.panel{background:var(--surface);border:1px solid #e0e7f0;border-radius:18px;box-shadow:0 14px 30px #283d5510;padding:22px;margin-bottom:18px}
+h2{font-size:19px;letter-spacing:-.025em;margin:0 0 7px}h3{font-size:15px;margin:0}.small{font-size:12px;color:var(--sub);line-height:1.65}.muted{color:var(--sub)}.section-head{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;margin-bottom:8px}
+label{font-size:12px;font-weight:700;color:#34475e}.field{margin-top:18px}.control-head{display:flex;justify-content:space-between;align-items:center;gap:10px;margin-bottom:10px}.control-head strong{font-size:21px;font-variant-numeric:tabular-nums}
+input[type=number],input[type=text],select{width:100%;padding:9px 10px;border:1px solid #d2deeb;border-radius:9px;background:#fff;color:var(--ink);font-size:13px}
+input[type=range]{width:100%;accent-color:var(--blue)}.ends{display:flex;justify-content:space-between;color:#74849a;font-size:11px}.toggle-row{display:flex;gap:9px;flex-wrap:wrap;margin:10px 0}.chip,.btn{border:1px solid #d4deea;background:white;color:#334861;border-radius:9px;padding:9px 12px;font-size:12px;font-weight:750}.chip.active,.btn.primary{background:#e9f0ff;border-color:#aac3fb;color:#204dbe}.btn.primary-solid{background:#2563eb;color:#fff;border-color:#2563eb}.btn:disabled{opacity:.5;cursor:not-allowed}.btn:hover,.chip:hover{border-color:#7f9ed7}
+.inline-controls{display:grid;grid-template-columns:1fr 88px;gap:10px}.rate-mode{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:12px}.rate-mode label{font-weight:500;font-size:12px;border:1px solid #d7e2ed;padding:9px;border-radius:9px;display:flex;align-items:center;gap:6px;cursor:pointer}
+.phase{border:1px solid var(--line);background:#fafcff;border-radius:12px;margin-top:10px;padding:12px}.phase-head{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-bottom:10px}.phase-title{font-weight:800;font-size:13px}.phase-fields{display:grid;grid-template-columns:110px minmax(0,1fr);gap:9px}.field-mini label{display:block;margin-bottom:5px}.phase-help{margin-top:7px;color:#64748b;font-size:11px}.minor-btn{background:transparent;border:0;color:#a3384c;font-size:12px;font-weight:700;cursor:pointer}
+.notice{padding:12px 13px;background:#eff5fc;border-left:3px solid #6e91c3;border-radius:0 9px 9px 0;color:#4e637b;font-size:12px;line-height:1.7;margin-top:14px}.warning{color:#a33f23;background:#fff4e9;padding:9px 10px;border-radius:8px;font-size:12px;margin-top:9px;display:none}
+.holding-scroller{overflow-x:auto;margin-top:14px;border:1px solid var(--line);border-radius:10px}.holdings-table{border-collapse:collapse;width:100%;min-width:770px;font-size:12px}.holdings-table th{white-space:nowrap;color:#64748b;background:#f5f8fc;text-align:left;font-size:11px;padding:10px 7px}.holdings-table td{border-top:1px solid #edf2f7;padding:8px 5px;vertical-align:top}.holdings-table input{padding:7px 6px;font-size:12px}.holdings-table .symbol{width:85px}.holdings-table .company{width:105px;margin-top:4px}.holdings-table .num{width:86px}.holdings-table .cost{width:102px}.holdings-table .price{width:100px}.holdings-table .weight{width:78px}.holdings-table .rate{width:80px}.holdings-table .del{border:0;background:transparent;color:#b44353;padding:8px}.holdings-table .dim-input{background:#edf2f8;color:#94a3b8}
+.holding-stats{display:grid;grid-template-columns:1fr 1fr;gap:9px;margin-top:12px}.mini-stat{background:#f5f8fc;border-radius:9px;padding:12px}.mini-stat .key{font-size:11px;color:#617287}.mini-stat .val{margin-top:5px;font-size:18px;font-weight:850;font-variant-numeric:tabular-nums}.portfolio-actions,.buttons{display:flex;gap:8px;flex-wrap:wrap;margin-top:13px}
+.summary{background:linear-gradient(130deg,#113650,#12253e);padding:22px;border-radius:15px;color:white}.summary .title{font-size:12px;color:#bed7eb;font-weight:750}.summary .big{font-size:clamp(31px,4.5vw,42px);font-weight:850;letter-spacing:-.045em;font-variant-numeric:tabular-nums;margin-top:5px}.summary .subtitle{font-size:12px;color:#c4d7e6;margin-top:4px}.summary-cards{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:17px;border-top:1px solid #ffffff35;margin-top:16px;padding-top:15px}.summary-cards .key{font-size:12px;color:#bad0e4}.summary-cards .value{font-size:23px;font-weight:800;margin-top:5px;font-variant-numeric:tabular-nums}.positive{color:#8debd2!important}.negative{color:#ffacb5!important}
+.kpis{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin:16px 0}.kpi{background:#f5f8fc;border:1px solid #e8eef6;border-radius:11px;padding:12px}.kpi .key{font-size:11px;color:#617287}.kpi .num{font-size:17px;font-weight:830;margin-top:5px;overflow-wrap:anywhere}
+.legend{display:flex;flex-wrap:wrap;gap:16px;margin:14px 4px;color:#617187;font-size:12px}.dot{display:inline-block;width:9px;height:9px;border-radius:3px;margin-right:6px}
+.chart{width:100%;height:auto;border:1px solid #e6edf5;background:linear-gradient(#fff,#fbfdff);border-radius:12px;touch-action:pan-y}.chart .axis{font-size:12px;fill:#7d8b9d}.chart .gridline{stroke:#e7edf4;stroke-width:1}.chart .line{fill:none;stroke-linecap:round;stroke-linejoin:round;stroke-width:3}.chart .bar{opacity:.45}.tip{background:#eef4fd;border-radius:9px;font-size:12px;color:#405675;padding:9px 12px;margin-top:10px;min-height:53px;line-height:1.6}
+.result-table{width:100%;border-collapse:collapse;font-size:12px}.result-table th{background:#f4f7fb;color:#64748b;text-align:right;padding:10px 8px}.result-table th:first-child,.result-table td:first-child{text-align:left}.result-table td{text-align:right;border-bottom:1px solid #e9eff6;padding:10px 8px;font-variant-numeric:tabular-nums}.result-table tbody tr:last-child{font-weight:850;background:#ecf4ff}.table-wrap{overflow:auto}.footnote{font-size:12px;line-height:1.8;color:#55677d;padding-top:7px}
+.footer{text-align:center;color:#8393a8;font-size:12px;line-height:1.8;padding:15px}
+@media(max-width:920px){.layout{grid-template-columns:1fr}header{padding-bottom:85px}.right{order:1}.left{order:0}}@media(max-width:470px){main{padding:0 10px}.panel{padding:15px;border-radius:13px}.summary{padding:17px}.summary-cards{gap:10px}.summary-cards .value{font-size:19px}.kpis{grid-template-columns:1fr 1fr}.phase-fields{grid-template-columns:86px 1fr}.mini-stat .val{font-size:15px}.result-table{font-size:11px}.result-table th,.result-table td{padding:8px 5px}}
+@media print{header{padding:12px;color:#222;background:white}header p{color:#333}main{margin:0}.layout{display:block}.left{display:none}.panel{box-shadow:none;border:0}.summary{print-color-adjust:exact;-webkit-print-color-adjust:exact}}
+</style>
+</head>
+<body>
+<header><div class="header-in"><div class="eyebrow">◉ 可離線使用・可修改持股・最多 40 年</div><h1>我的長期投資模擬器</h1><p>自由規劃每一段人生階段的投資金額，並查看複利如何影響長期資產。<br>單一 HTML 檔案，不需安裝 Excel、Python，也不需連線。</p></div></header>
+<main><div class="layout">
+  <section class="left" aria-label="試算設定">
+    <div class="panel">
+      <div class="section-head"><div><h2>① 投資年限與報酬設定</h2><div class="small">所有參數修改後，右側會即時重新計算。</div></div></div>
+      <div class="field">
+        <div class="control-head"><label for="yearSlider">預計投資年限</label><strong id="yearLabel">40 年</strong></div>
+        <input type="range" id="yearSlider" min="1" max="40" value="40" step="1" aria-label="投資年數（1 到 40 年）">
+        <div class="ends"><span>1 年</span><span>40 年</span></div>
+        <div class="inline-controls" style="margin-top:10px"><span class="small" style="align-self:center">也可以直接輸入投資年數：</span><input type="number" id="yearNumber" min="1" max="40" step="1" value="40" aria-label="投資年數"></div>
+      </div>
+      <div class="field">
+        <div class="control-head"><label for="rateSlider">統一年化總報酬率</label><strong id="rateLabel">+5%</strong></div>
+        <input id="rateSlider" type="range" min="-15" max="20" step="0.5" value="5">
+        <div class="ends"><span>−15%</span><span>+20%</span></div>
+        <div class="toggle-row" id="ratePresets"><button type="button" class="chip" data-rate="-3">保守 −3%</button><button type="button" class="chip active" data-rate="5">中性 +5%</button><button type="button" class="chip" data-rate="9">樂觀 +9%</button></div>
+        <div class="rate-mode">
+          <label><input type="radio" name="rateMode" value="uniform" checked> 全部套用統一報酬率</label>
+          <label><input type="radio" name="rateMode" value="custom"> 每檔股票自訂報酬率</label>
+        </div>
+        <p class="small">這些報酬率都只是可修改的假設，不是任何股票的報酬預測。</p>
+      </div>
+    </div>
+    <div class="panel">
+      <div class="section-head"><div><h2>② 分階段每月加碼</h2><div class="small">從指定的「第幾年」開始，套用該階段的每月投入。</div></div></div>
+      <div id="phaseRows"></div>
+      <div id="phaseWarning" class="warning" role="status"></div>
+      <div class="buttons"><button class="btn primary" type="button" id="addPhase">＋ 新增加碼階段</button></div>
+      <p class="notice"><b>預設範例：</b>第 1～10 年每月 5,000 元；第 11～40 年每月 10,000 元。若新增「第 21 年：每月 15,000 元」，則第 11～20 年維持每月 10,000 元，第 21 年起改成每月 15,000 元。超出總投資年限的階段不計入本次模擬。</p>
+    </div>
+    <div class="panel">
+      <div class="section-head"><div><h2>③ 自訂持股庫存</h2><div class="small">可修改、增加、刪除標的。初始資料僅為虛構示範，請自行設定持股。</div></div></div>
+      <div class="holding-scroller"><table class="holdings-table"><thead><tr><th>代號／名稱</th><th>股數</th><th>總成本（元）</th><th>參考股價（元）</th><th>每檔報酬率</th><th>加碼權重</th><th>移除</th></tr></thead><tbody id="holdingRows"></tbody></table></div>
+      <div class="small" style="margin-top:9px">參考股價預設為「總成本 ÷ 股數」，<b>不是最新行情</b>。若要從現在的市值試算，請自行填入最新市價。每月加碼金額依「加碼權重」比例分配，並自動標準化為 100%。</div>
+      <div id="weightNote" class="small" style="margin-top:5px"></div>
+      <div class="holding-stats"><div class="mini-stat"><div class="key">歷史持股總成本</div><div class="val" id="costTotal">—</div></div><div class="mini-stat"><div class="key">模擬起始總資產</div><div class="val" id="startingValue">—</div></div></div>
+      <div class="buttons"><button class="btn primary" id="addHolding" type="button">＋ 新增股票／ETF</button></div>
+    </div>
+    <div class="panel">
+      <h2>④ 儲存與下載</h2><div class="small">輸入會嘗試自動儲存於這台瀏覽器。建議另外備份 JSON 設定檔，避免換電腦或清除瀏覽器資料後遺失。</div>
+      <div class="buttons"><button type="button" class="btn primary-solid" id="exportCSV">↓ 匯出年度收益 CSV</button><button type="button" class="btn" id="exportJSON">↓ 備份設定 JSON</button><button type="button" class="btn" id="importButton">↑ 匯入設定 JSON</button><button type="button" class="btn" id="reset">↻ 恢復預設</button></div>
+      <input id="importInput" type="file" accept=".json,application/json" hidden>
+      <div id="saveStatus" class="small" role="status" style="margin-top:10px">可離線使用</div>
+    </div>
+  </section>
+  <section class="right" aria-label="模擬結果">
+    <div class="panel">
+      <div class="summary" aria-live="polite"><div class="title" id="summaryLabel">40 年後預估總資產</div><div class="big" id="finalValue">—</div><div class="subtitle">依持股起始參考價、階段投入與假設報酬率計算</div><div class="summary-cards"><div><div class="key">累計投入本金（含起始資產）</div><div class="value" id="contributed">—</div></div><div><div class="key">從起始點算起的模擬損益</div><div class="value" id="profit">—</div></div></div></div>
+      <div class="kpis"><div class="kpi"><div class="key">未來新投入本金</div><div class="num" id="futureContrib">—</div></div><div class="kpi"><div class="key">歷史庫存成本</div><div class="num" id="historicalCost">—</div></div><div class="kpi"><div class="key">損益／累計投入本金</div><div class="num" id="growthPct">—</div></div></div>
+      <div class="section-head" style="margin-top:18px"><div><h2>資產成長曲線</h2><div class="small">藍線：模擬資產；灰線：累計投入。點擊或滑過圖表可查看年度金額。</div></div></div>
+      <svg id="chart" class="chart" viewBox="0 0 850 390" role="img" aria-label="0 到 40 年的投資資產及累計本金曲線"><title>模擬資產與累計本金曲線</title></svg>
+      <div class="legend"><span><i class="dot" style="background:#2563eb"></i>預估總資產</span><span><i class="dot" style="background:#8fa2ba"></i>累計投入本金</span></div>
+      <div class="tip" id="chartTip" aria-live="polite">移動游標查看每年結果</div>
+      <div class="section-head" style="margin-top:25px"><h2>關鍵年份的資產變化</h2><span class="small">單位：新台幣</span></div>
+      <div class="table-wrap"><table class="result-table"><thead><tr><th>年數</th><th>累計本金</th><th>預估總資產</th><th>模擬損益</th></tr></thead><tbody id="annualRows"></tbody></table></div>
+      <div class="footnote"><b>試算方式與限制：</b>每個月先依假設年化總報酬率換算等效月報酬，月末再投入該階段的金額；可將新增資金依權重分配給不同股票。報酬假設為含股息再投入的總報酬，不計手續費、交易稅、所得稅、通膨或真實市場波動；允許分數股僅供數學估算。<b>「模擬損益」是從輸入的起始參考市值開始算，並非券商全部歷史已實現及未實現損益。</b></div>
+    </div>
+  </section>
+</div><div class="footer">單一 HTML、CSS 與 JavaScript 檔案｜純離線、無外部資料或套件｜公開示範版</div></main>
+<script>
+(function(){
+  'use strict';
+  const $=id=>document.getElementById(id);
+  const fmt=n=>Math.round(Math.abs(n)).toLocaleString('zh-TW');
+  const money=n=>(n<0?'−':'')+'NT$ '+fmt(n);
+  const signed=n=>(n<0?'−':'+')+fmt(n);
+  const safe=(x,otherwise=0)=>Number.isFinite(Number(x))?Number(x):otherwise;
+  const clamp=(n,lo,hi)=>Math.max(lo,Math.min(hi,n));
+  const h=s=>String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+  const KEY='investment-simulator-public-demo-v1';
+  let nextId=100;
+  const defaults=()=>({
+    years:40,rate:5,rateMode:'uniform',
+    phases:[{id:'p1',start:1,amount:5000},{id:'p2',start:11,amount:10000}],
+    holdings:[
+      {id:'s1',symbol:'DEMO1',name:'範例 ETF',shares:100,cost:10000,price:100,autoPrice:true,rate:5,weight:60},
+      {id:'s2',symbol:'DEMO2',name:'範例股票',shares:20,cost:4000,price:200,autoPrice:true,rate:5,weight:40}
+    ]
+  });
+  function cleanData(v){
+    if(!v||typeof v!=='object'||!Array.isArray(v.holdings)||!v.holdings.length||!Array.isArray(v.phases))throw Error('設定檔缺少庫存或加碼階段');
+    if(v.holdings.length>80||v.phases.length>40)throw Error('設定項目過多');
+    return {
+      years:clamp(Math.round(safe(v.years,40)),1,40),rate:clamp(safe(v.rate,5),-15,20),rateMode:v.rateMode==='custom'?'custom':'uniform',
+      phases:v.phases.map((p,i)=>({id:'p'+i+'x',start:clamp(Math.round(safe(p.start,1)),1,40),amount:clamp(safe(p.amount),0,100000000)})),
+      holdings:v.holdings.map((s,i)=>({
+        id:'s'+i+'x',symbol:String(s.symbol||'股票').slice(0,20),name:String(s.name||'未命名').slice(0,42),
+        shares:clamp(safe(s.shares),0,100000000),cost:clamp(safe(s.cost),0,1e11),price:clamp(safe(s.price),0,1e10),
+        autoPrice:!!s.autoPrice,rate:clamp(safe(s.rate,5),-99,100),weight:clamp(safe(s.weight),0,10000)
+      }))
+    };
+  }
+  function load(){try{const txt=localStorage.getItem(KEY);if(txt)return cleanData(JSON.parse(txt));}catch(e){}return defaults();}
+  let state=load(),rows=[];
+  function store(){try{localStorage.setItem(KEY,JSON.stringify(state));$('saveStatus').textContent='已將設定儲存在此瀏覽器（仍建議備份 JSON）';}catch(e){$('saveStatus').textContent='目前瀏覽器無法自動儲存，請按「備份設定 JSON」保留資料';}}
+  function totals(){return {cost:state.holdings.reduce((a,s)=>a+s.cost,0),starting:state.holdings.reduce((a,s)=>a+s.shares*s.price,0)};}
+  function phaseSorted(){return [...state.phases].sort((a,b)=>a.start-b.start);}
+  function monthlyContribution(year){let sum=0;for(const p of phaseSorted())if(p.start<=year)sum=p.amount;return sum;}
+  function shareWeights(){const sums=state.holdings.map(s=>Math.max(0,s.weight));const tot=sums.reduce((a,b)=>a+b,0);return tot>0?sums.map(w=>w/tot):state.holdings.map(()=>1/state.holdings.length);}
+  function compute(){
+    const shares=shareWeights(),values=state.holdings.map(s=>s.shares*s.price);
+    const monthRates=state.holdings.map(s=>Math.pow(1+(state.rateMode==='custom'?s.rate:state.rate)/100,1/12)-1);
+    const initial=values.reduce((a,b)=>a+b,0);let invested=initial,future=0;
+    const output=[{year:0,invested,value:initial,profit:0,future,perStock:[...values]}];
+    for(let m=1;m<=state.years*12;m++){
+      const year=Math.ceil(m/12),contribution=monthlyContribution(year);
+      values.forEach((v,i)=>{values[i]=v*(1+monthRates[i])+contribution*shares[i]});
+      invested+=contribution;future+=contribution;
+      if(m%12===0){const value=values.reduce((a,b)=>a+b,0);output.push({year:m/12,invested,value,profit:value-invested,future,perStock:[...values]});}
+    }
+    return output;
+  }
+  function renderPhases(){
+    const sorted=phaseSorted();
+    $('phaseRows').innerHTML=sorted.map((p,i)=>{
+      const next=sorted[i+1]; const end=Math.min(state.years,next?next.start-1:state.years);
+      const desc=p.start>state.years?'超出目前投資年限':end<p.start?'起始年重複，請調整':`第 ${p.start}～${end} 年生效`;
+      return `<div class="phase" data-phase-id="${h(p.id)}"><div class="phase-head"><span class="phase-title">階段 ${i+1}</span><button type="button" class="minor-btn" data-delete-phase="${h(p.id)}">移除階段</button></div><div class="phase-fields"><div class="field-mini"><label>從第幾年開始</label><input type="number" data-phase="start" min="1" max="40" step="1" value="${p.start}"></div><div class="field-mini"><label>這階段每月投入（元）</label><input type="number" data-phase="amount" min="0" max="100000000" step="100" value="${p.amount}"></div></div><div class="phase-help" data-phase-desc="${h(p.id)}">${desc}</div></div>`;
+    }).join('');
+    const repeated=new Set(),seen=new Set();state.phases.forEach(p=>{if(seen.has(p.start))repeated.add(p.start);seen.add(p.start)});
+    const warning=$('phaseWarning');warning.style.display=repeated.size?'block':'none';warning.textContent=repeated.size?`注意：第 ${[...repeated].join('、')} 年有多個設定；此時後一筆將優先套用，建議修改為不同起始年。`:'';
+  }
+  function renderHoldings(){
+    $('holdingRows').innerHTML=state.holdings.map(s=>`<tr data-holding-id="${h(s.id)}"><td><input aria-label="股票代號" class="symbol" type="text" data-holding="symbol" value="${h(s.symbol)}"><input aria-label="股票名稱" class="company" type="text" data-holding="name" value="${h(s.name)}"></td><td><input aria-label="股數" class="num" type="number" min="0" step="1" data-holding="shares" value="${s.shares}"></td><td><input aria-label="總成本" class="cost" type="number" min="0" step="1" data-holding="cost" value="${s.cost}"></td><td><input aria-label="參考股價" class="price" type="number" min="0" step="0.01" data-holding="price" value="${Number(s.price.toFixed(4))}"></td><td><input aria-label="自訂年化報酬率" class="rate ${state.rateMode==='uniform'?'dim-input':''}" type="number" min="-99" max="100" step="0.5" data-holding="rate" ${state.rateMode==='uniform'?'disabled':''} value="${s.rate}"></td><td><input aria-label="加碼相對權重" class="weight" type="number" min="0" max="10000" step="1" data-holding="weight" value="${s.weight}"></td><td><button type="button" aria-label="刪除 ${h(s.symbol)}" class="del" data-delete-holding="${h(s.id)}">✕</button></td></tr>`).join('');
+  }
+  function axisFormat(n){if(Math.abs(n)>=1e8)return (n/1e8).toFixed(1)+'億';if(Math.abs(n)>=1e4)return (n/1e4).toFixed(n%1e4===0?0:1)+'萬';return fmt(n)}
+  function renderChart(){
+    const svg=$('chart'),W=850,H=390,L=89,R=27,T=20,B=50,PW=W-L-R,PH=H-T-B,N=state.years;
+    let ceiling=Math.max(1,...rows.map(r=>Math.max(r.invested,r.value)))*1.07;
+    const exp=Math.pow(10,Math.floor(Math.log10(ceiling)));ceiling=(ceiling/exp<=1?1:ceiling/exp<=2?2:ceiling/exp<=2.5?2.5:ceiling/exp<=5?5:10)*exp;
+    const x=t=>L+PW*t/N, y=v=>T+PH*(1-v/ceiling);
+    const path=field=>rows.map(r=>`${x(r.year).toFixed(2)},${y(r[field]).toFixed(2)}`).join(' ');
+    let s='<defs><linearGradient id="area" x1="0" y1="0" x2="0" y2="1"><stop stop-color="#2563eb" stop-opacity=".17"/><stop offset="1" stop-color="#2563eb" stop-opacity="0"/></linearGradient></defs>';
+    for(let i=0;i<=4;i++){let yy=y(ceiling*i/4);s+=`<line class="gridline" x1="${L}" x2="${W-R}" y1="${yy}" y2="${yy}"/><text class="axis" x="${L-9}" y="${yy+4}" text-anchor="end">${axisFormat(ceiling*i/4)}</text>`}
+    const step=N<=8?1:N<=18?3:N<=25?5:10;
+    const ticks=[...new Set([0,...Array.from({length:Math.floor(N/step)+1},(_,i)=>i*step),N])].sort((a,b)=>a-b);
+    ticks.forEach(t=>s+=`<text class="axis" x="${x(t)}" y="${H-20}" text-anchor="middle">${t}年</text>`);
+    s+=`<polygon points="${x(0)},${y(0)} ${path('value')} ${x(N)},${y(0)}" fill="url(#area)"/>`;
+    s+=`<polyline class="line" stroke="#8fa2ba" stroke-dasharray="9 8" points="${path('invested')}"/>`;
+    s+=`<polyline class="line" stroke="#2563eb" points="${path('value')}"/>`;
+    s+=`<g id="marker" style="display:none"><line id="markLine" y1="${T}" y2="${H-B}" stroke="#7893ae" stroke-dasharray="4 5"/><circle id="markAsset" r="6" fill="#2563eb" stroke="white" stroke-width="2"/><circle id="markPrincipal" r="5" fill="#8fa2ba" stroke="white" stroke-width="2"/></g>`;
+    s+=`<rect x="${L}" y="${T}" width="${PW}" height="${PH}" fill="transparent" id="plotHit" style="cursor:crosshair"/>`;
+    svg.innerHTML=s;
+    const setTip=(year)=>{year=clamp(Math.round(year),0,N);const r=rows[year];$('marker').style.display='';$('markLine').setAttribute('x1',x(year));$('markLine').setAttribute('x2',x(year));$('markAsset').setAttribute('cx',x(year));$('markAsset').setAttribute('cy',y(r.value));$('markPrincipal').setAttribute('cx',x(year));$('markPrincipal').setAttribute('cy',y(r.invested));$('chartTip').textContent=`第 ${year} 年｜資產 ${money(r.value)} ｜累計投入 ${money(r.invested)} ｜模擬損益 ${signed(r.profit)} 元`};
+    const hit=$('plotHit');hit.addEventListener('pointermove',e=>{const b=svg.getBoundingClientRect();setTip(((e.clientX-b.left)*W/b.width-L)/PW*N)});hit.addEventListener('pointerdown',e=>{const b=svg.getBoundingClientRect();setTip(((e.clientX-b.left)*W/b.width-L)/PW*N)});hit.addEventListener('pointerleave',()=>setTip(N));setTip(N);
+  }
+  function renderResult(){
+    rows=compute();const r=rows[rows.length-1], t=totals();
+    $('yearSlider').value=state.years;$('yearNumber').value=state.years;$('yearLabel').textContent=state.years+' 年';
+    $('rateSlider').value=state.rate;$('rateLabel').textContent=(state.rate>=0?'+':'')+state.rate+'%';
+    document.querySelectorAll('input[name="rateMode"]').forEach(el=>el.checked=el.value===state.rateMode);
+    document.querySelectorAll('[data-rate]').forEach(el=>el.classList.toggle('active',safe(el.dataset.rate)===state.rate));
+    $('costTotal').textContent=money(t.cost);$('historicalCost').textContent=money(t.cost);$('startingValue').textContent=money(t.starting);
+    $('summaryLabel').textContent=state.years+' 年後預估總資產';$('finalValue').textContent=money(r.value);
+    $('contributed').textContent=money(r.invested);$('profit').textContent=signed(r.profit)+' 元';$('profit').className='value '+(r.profit>=0?'positive':'negative');
+    $('futureContrib').textContent=money(r.future);$('growthPct').textContent=(r.invested>0?(100*r.profit/r.invested).toFixed(1):'0')+'%';
+    const weights=shareWeights();$('weightNote').textContent='每月新投入配置比例：'+state.holdings.map((s,i)=>`${s.symbol||'未命名'} ${(weights[i]*100).toFixed(1)}%`).join(' ｜ ');
+    const picks=new Set([0,1,3,5,10,15,20,25,30,35,40,state.years,...phaseSorted().flatMap(p=>[p.start-1,p.start])]);
+    $('annualRows').innerHTML=rows.filter(q=>picks.has(q.year)).map(q=>`<tr><td>第 ${q.year} 年</td><td>${fmt(q.invested)}</td><td>${fmt(q.value)}</td><td style="color:${q.profit<0?'#c24154':'#078e7f'}">${signed(q.profit)}</td></tr>`).join('');
+    renderChart();store();
+  }
+  function refreshAll(){renderPhases();renderHoldings();renderResult();}
+  function inputNum(node,min,max){const v=Number(node.value);return Number.isFinite(v)?clamp(v,min,max):min}
+  $('yearSlider').addEventListener('input',e=>{state.years=inputNum(e.target,1,40);renderPhases();renderResult()});
+  $('yearNumber').addEventListener('change',e=>{state.years=clamp(Math.round(inputNum(e.target,1,40)),1,40);renderPhases();renderResult()});
+  $('rateSlider').addEventListener('input',e=>{state.rate=inputNum(e.target,-15,20);renderResult()});
+  $('ratePresets').addEventListener('click',e=>{const b=e.target.closest('[data-rate]');if(!b)return;state.rate=safe(b.dataset.rate,5);renderResult()});
+  document.querySelectorAll('input[name="rateMode"]').forEach(el=>el.addEventListener('change',()=>{state.rateMode=el.value;refreshAll()}));
+  $('phaseRows').addEventListener('input',e=>{const field=e.target.dataset.phase;if(!field)return;const el=e.target.closest('[data-phase-id]');const obj=state.phases.find(p=>p.id===el.dataset.phaseId);if(!obj)return;obj[field]=field==='start'?Math.round(inputNum(e.target,1,40)):inputNum(e.target,0,100000000);renderResult()});
+  $('phaseRows').addEventListener('change',e=>{if(!e.target.dataset.phase)return;renderPhases();renderResult()});
+  $('phaseRows').addEventListener('click',e=>{const b=e.target.closest('[data-delete-phase]');if(!b)return;state.phases=state.phases.filter(p=>p.id!==b.dataset.deletePhase);refreshAll()});
+  $('addPhase').addEventListener('click',()=>{const latest=phaseSorted().at(-1)?.start||0;const start=latest<40?latest+1:40;state.phases.push({id:'p'+(++nextId),start,amount:10000});refreshAll()});
+  $('holdingRows').addEventListener('input',e=>{
+    const field=e.target.dataset.holding;if(!field)return;const obj=state.holdings.find(s=>s.id===e.target.closest('[data-holding-id]').dataset.holdingId);if(!obj)return;
+    if(field==='symbol'||field==='name')obj[field]=e.target.value;
+    else {const limits={shares:[0,1e8],cost:[0,1e11],price:[0,1e10],rate:[-99,100],weight:[0,10000]};obj[field]=inputNum(e.target,...limits[field]);
+      if(field==='price')obj.autoPrice=false;
+      if((field==='shares'||field==='cost')&&obj.autoPrice){obj.price=obj.shares?obj.cost/obj.shares:0;const priceInput=e.target.closest('tr').querySelector('[data-holding="price"]');priceInput.value=Number(obj.price.toFixed(4));}
+    }
+    renderResult();
+  });
+  $('holdingRows').addEventListener('click',e=>{const b=e.target.closest('[data-delete-holding]');if(!b)return;if(state.holdings.length===1){alert('請至少保留一個投資標的。');return;}state.holdings=state.holdings.filter(s=>s.id!==b.dataset.deleteHolding);refreshAll()});
+  $('addHolding').addEventListener('click',()=>{state.holdings.push({id:'s'+(++nextId),symbol:'新標的',name:'自訂股票',shares:0,cost:0,price:0,autoPrice:true,rate:5,weight:10});refreshAll()});
+  function download(text,name,mime){const blob=new Blob([text],{type:mime});const url=URL.createObjectURL(blob),a=document.createElement('a');a.href=url;a.download=name;document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(url),2000)}
+  $('exportCSV').addEventListener('click',()=>{
+    const headers=['投資年數','累計投入本金','未來新投入本金','預估總資產','模擬投資損益',...state.holdings.map(s=>`${s.symbol}_${s.name}_預估資產`)];
+    const cells=x=>'"'+String(x).replace(/"/g,'""')+'"';
+    const lines=[headers.map(cells).join(','),...rows.map(r=>[r.year,Math.round(r.invested),Math.round(r.future),Math.round(r.value),Math.round(r.profit),...r.perStock.map(Math.round)].map(cells).join(','))];
+    download('\ufeff'+lines.join('\r\n'),'投資模擬_'+state.years+'年_年度資產.csv','text/csv;charset=utf-8');
+  });
+  $('exportJSON').addEventListener('click',()=>download(JSON.stringify({version:2,exportedAt:new Date().toISOString(),...state},null,2),'投資模擬器_持股與加碼設定.json','application/json;charset=utf-8'));
+  $('importButton').addEventListener('click',()=>$('importInput').click());
+  $('importInput').addEventListener('change',async e=>{const file=e.target.files[0];if(!file)return;try{state=cleanData(JSON.parse(await file.text()));refreshAll();$('saveStatus').textContent='已匯入：'+file.name;}catch(err){alert('無法匯入設定檔：'+err.message)}e.target.value=''});
+  $('reset').addEventListener('click',()=>{if(!confirm('要將持股、報酬率、年限與分段加碼全部恢復預設值嗎？'))return;state=defaults();refreshAll()});
+  refreshAll();
+})();
+</script>
+</body></html>
